@@ -1,4 +1,5 @@
 from sanulimestari import parse_words
+
 def test_parse_words():
 
 	doc = """<?xml version="1.0" encoding="utf-8"?>
@@ -13,5 +14,5 @@ def test_parse_words():
 	<st><s>sade</s><t><tn>40</tn></t></st>
 	</kotus-sanalista>
 	"""
-
-	assert ['mika', 'sade'] == parse_words(doc, 4)
+	letters = {'m', 'i', 'k', 'a','s', 'd', 'e' }
+	assert (['mika', 'sade'], letters)  == parse_words(doc, 4)
