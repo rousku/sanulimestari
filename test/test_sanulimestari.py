@@ -9,7 +9,7 @@ def test_parse_words():
 	-->
 	<kotus-sanalista>
 	<st><s>ahven</s><t><tn>38</tn></t></st>
-	<st><s>mika</s><t><tn>38</tn></t></st>
+	<st><s>MIKA</s><t><tn>38</tn></t></st>
 	<st><s>tor</s><t><tn>99</tn></t></st>
 	<st><s>sade</s><t><tn>40</tn></t></st>
 	</kotus-sanalista>

@@ -6,8 +6,9 @@ def parse_words(document, word_length):
 	root = ET.fromstring(document)
 	for word in root.findall('.//st/s'):
 		if len(word.text) == word_length:
-			for letter in word.text:
+			normalized_word = word.text.lower()
+			for letter in normalized_word:
 				letters.add(letter)
-			words.append(word.text)
+			words.append(normalized_word)
 
 	return (words, letters)
