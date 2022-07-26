@@ -12,7 +12,8 @@ def test_parse_words():
 	<st><s>MIKA</s><t><tn>38</tn></t></st>
 	<st><s>tor</s><t><tn>99</tn></t></st>
 	<st><s>sade</s><t><tn>40</tn></t></st>
+	<st><s>pito</s><t><tn>40</tn></t></st>
 	</kotus-sanalista>
 	"""
 	letters = {'m', 'i', 'k', 'a','s', 'd', 'e' }
-	assert (['mika', 'sade'], letters)  == parse_words(doc, 4)
+	assert (['mika', 'sade'])  == parse_words(doc, 4, letters)
