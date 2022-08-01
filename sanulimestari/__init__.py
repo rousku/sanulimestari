@@ -10,3 +10,18 @@ def parse_words(document, word_length, letters):
 				words.append(normalized_word)
 
 	return words
+
+
+def guess_word(guess, word):
+
+	if len(guess) != len(word):
+		raise ValueError("The 'word' and the 'guess' must have same length!")
+
+	match = []
+	for i in range(0, len(guess)):
+		if guess[i] == word[i]:
+			match.append('+')
+		else:
+			match.append('-')
+
+	return (''.join(match), [])
