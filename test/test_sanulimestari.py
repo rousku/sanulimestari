@@ -17,8 +17,9 @@ def test_parse_words():
     <st><s>pito</s><t><tn>40</tn></t></st>
     </kotus-sanalista>
     """
-    letters = {'m', 'i', 'k', 'a','s', 'd', 'e' }
-    assert (['mika', 'sade'])  == parse_words(doc, 4, letters)
+    letters = {'m', 'i', 'k', 'a', 's', 'd', 'e'}
+    assert (['mika', 'sade']) == parse_words(doc, 4, letters)
+
 
 @pytest.mark.parametrize('guess,word,expected', [('b', 'a', ('-', [])),
                                                  ('a', 'a', ('+', [])),
@@ -30,6 +31,9 @@ def test_parse_words():
 def test_guess_word(guess, word, expected):
     assert expected == guess_word(guess, word)
 
+
 def test_guess_word_lenghts_dont_match():
-    with pytest.raises(ValueError, match="The 'word' and the 'guess' must have same length!"):
+    with pytest.raises(
+            ValueError,
+            match="The 'word' and the 'guess' must have same length!"):
         guess_word('a', 'ab')
