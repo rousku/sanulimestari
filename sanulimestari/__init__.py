@@ -20,19 +20,35 @@ def guess_word(guess, word):
 
     choice = []
     not_found = set()
+    excluded = {}
+    letter_count = {}
 
     for i in range(0, len(guess)):
+
+        if not word[i] in letter_count:
+            letter_count[word[i]] = 0
+        letter_count[word[i]] = letter_count[word[i]] + 1
+
         if guess[i] == word[i]:
             choice.append(guess[i])
         else:
             choice.append(set(guess[i]))
-            not_found.add(guess[i])
+
+            if not guess[i] in word:
+                not_found.add(guess[i])
+            else:
+                if not guess[i] in excluded:
+                    excluded[guess[i]] = set(range(0,len(guess)))
+                excluded[guess[i]].remove(i)
 
     for part in choice:
         if isinstance(part, set):
             part.update(not_found)
 
-    return [[
+    choice = [
         '^' + ''.join(sorted(list(part))) if isinstance(part, set) else part
         for part in choice
-    ]]
+    ]
+
+
+    return [choice]

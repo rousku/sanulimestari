@@ -28,6 +28,8 @@ def test_parse_words():
                           ('ab', 'bb', [['^a', 'b']]),
                           ('aa', 'bb', [['^a', '^a']]),
                           ('ab', 'ce', [['^ab', '^ab']]),
+                          ('aa', 'ca', [['^a', 'a']]),
+                          ('ab', 'ca', [['^ab', 'a']])
                           ])
 def test_guess_word(guess, word, expected):
     assert expected == guess_word(guess, word)
