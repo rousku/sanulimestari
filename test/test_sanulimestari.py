@@ -21,13 +21,14 @@ def test_parse_words():
     assert (['mika', 'sade']) == parse_words(doc, 4, letters)
 
 
-@pytest.mark.parametrize('guess,word,expected', [('b', 'a', ('-', [])),
-                                                 ('a', 'a', ('+', [])),
-                                                 ('aa', 'aa', ('++', [])),
-                                                 ('bb', 'ba', ('+-', [])),
-                                                 ('ab', 'bb', ('-+', [])),
-                                                 ('aa', 'bb', ('--', [])),
-                                                 ('abb', 'cad', ('---', []))])
+@pytest.mark.parametrize('guess,word,expected',
+                         [('b', 'a', [['^b']]), ('a', 'a', [['a']]),
+                          ('ac', 'ac', [['a', 'c']]),
+                          ('bb', 'ba', [['b', '^b']]),
+                          ('ab', 'bb', [['^a', 'b']]),
+                          ('aa', 'bb', [['^a', '^a']]),
+                          ('ab', 'ce', [['^ab', '^ab']]),
+                          ])
 def test_guess_word(guess, word, expected):
     assert expected == guess_word(guess, word)
 

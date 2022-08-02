@@ -18,11 +18,21 @@ def guess_word(guess, word):
     if len(guess) != len(word):
         raise ValueError("The 'word' and the 'guess' must have same length!")
 
-    match = []
+    choice = []
+    not_found = set()
+
     for i in range(0, len(guess)):
         if guess[i] == word[i]:
-            match.append('+')
+            choice.append(guess[i])
         else:
-            match.append('-')
+            choice.append(set(guess[i]))
+            not_found.add(guess[i])
 
-    return (''.join(match), [])
+    for part in choice:
+        if isinstance(part, set):
+            part.update(not_found)
+
+    return [[
+        '^' + ''.join(sorted(list(part))) if isinstance(part, set) else part
+        for part in choice
+    ]]
