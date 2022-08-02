@@ -1,4 +1,4 @@
-from sanulimestari import parse_words, guess_word
+from sanulimestari import parse_words, guess_word, first_guess
 import pytest
 
 
@@ -42,3 +42,7 @@ def test_guess_word_lenghts_dont_match():
             ValueError,
             match="The 'word' and the 'guess' must have same length!"):
         guess_word('a', 'ab')
+
+
+def test_first_guess():
+    assert 'hieno' == first_guess('.\\kotus-sanalista_v1\\kotus-sanalista_v1.xml')

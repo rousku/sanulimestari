@@ -1,5 +1,6 @@
 import xml.etree.ElementTree as ET
 import itertools
+import string
 
 def parse_words(document, word_length, letters):
     words = []
@@ -74,3 +75,42 @@ def guess_word(guess, word):
             choices.append(choice_copy)
 
     return choices
+
+def match(sample, choices):
+    for choice in choices:
+        is_match = True
+        for i in range(0, len(sample)):
+            if choice[i][0].startswith('^'):
+                is_match = sample[i] not in choice[i]
+            else:
+                is_match = choice[i] == sample[i]
+
+        if is_match:
+            return True
+
+    return False
+
+def first_guess(kotus_word_list):
+    letters = set(string.ascii_lowercase)
+    letters.update('ä')
+    letters.update('ö')
+    words = parse_words(open(kotus_word_list, encoding='utf-8').read(), 5, letters)
+
+    results = {}
+
+    for guess_index, guess in enumerate(words):
+        print(f"progress: {guess_index/len(words)}")
+        for sanuli in words:
+
+            choices = guess_word(guess, sanuli)
+
+            for word in words:
+
+                if match(word, choices):
+                    if not guess in results:
+                        results[guess] = 0
+
+                    results[guess] = results[guess] + 1
+
+
+    return 'täkki'
