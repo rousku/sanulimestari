@@ -90,16 +90,15 @@ def match(sample, choices):
 
     return False
 
-def first_guess(kotus_word_list):
+def first_guess(kotus_word_list, word_length):
     letters = set(string.ascii_lowercase)
     letters.update('ä')
     letters.update('ö')
-    words = parse_words(open(kotus_word_list, encoding='utf-8').read(), 5, letters)
+    words = parse_words(open(kotus_word_list, encoding='utf-8').read(), word_length, letters)
 
     results = {}
 
-    for guess_index, guess in enumerate(words):
-        print(f"progress: {guess_index/len(words)}")
+    for guess in words:
         for sanuli in words:
 
             choices = guess_word(guess, sanuli)
@@ -113,4 +112,6 @@ def first_guess(kotus_word_list):
                     results[guess] = results[guess] + 1
 
 
-    return 'täkki'
+
+    best_guess = min(results, key=results.get)
+    return (best_guess, results[best_guess])

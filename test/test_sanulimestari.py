@@ -45,4 +45,4 @@ def test_guess_word_lenghts_dont_match():
 
 
 def test_first_guess():
-    assert 'hieno' == first_guess('.\\kotus-sanalista_v1\\kotus-sanalista_v1.xml')
+    assert ('sade', 4) == first_guess('.\\test\\word_list.xml', 4)
