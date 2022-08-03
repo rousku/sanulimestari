@@ -1,6 +1,7 @@
 import xml.etree.ElementTree as ET
 import itertools
 import string
+from functools import lru_cache
 
 def parse_words(document, word_length, letters):
     words = []
@@ -90,6 +91,7 @@ def match(sample, choices):
 
     return False
 
+@lru_cache(maxsize=None)
 def get_word_count(filters, words):
     count = 0
     for word in words:
@@ -98,19 +100,25 @@ def get_word_count(filters, words):
 
     return count
 
+
+
 def first_guess(kotus_word_list, word_length):
     letters = set(string.ascii_lowercase)
     letters.update('ä')
     letters.update('ö')
-    words = parse_words(open(kotus_word_list, encoding='utf-8').read(), word_length, letters)
+    words = tuple(parse_words(open(kotus_word_list, encoding='utf-8').read(), word_length, letters))
 
     results = {}
 
-    for guess in words[:1]:
+    for guess in words:
         results[guess] = 0
         for sanuli in words:
             choices = guess_word(guess, sanuli)
-            results[guess] = results[guess] + get_word_count(choices, words)
+
+            def tuple2list(a):
+                return tuple( tuple2list(x) if isinstance(x, list) else x for x in a) 
+
+            results[guess] = results[guess] + get_word_count(tuple2list(choices), words)
 
 
     best_guess = min(results, key=results.get)
