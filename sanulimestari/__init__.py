@@ -90,6 +90,14 @@ def match(sample, choices):
 
     return False
 
+def get_word_count(filters, words):
+    count = 0
+    for word in words:
+        if match(word, filters):
+            count = count + 1
+
+    return count
+
 def first_guess(kotus_word_list, word_length):
     letters = set(string.ascii_lowercase)
     letters.update('ä')
@@ -99,18 +107,10 @@ def first_guess(kotus_word_list, word_length):
     results = {}
 
     for guess in words[:1]:
+        results[guess] = 0
         for sanuli in words:
-
             choices = guess_word(guess, sanuli)
-
-            for word in words:
-
-                if match(word, choices):
-                    if not guess in results:
-                        results[guess] = 0
-
-                    results[guess] = results[guess] + 1
-
+            results[guess] = results[guess] + get_word_count(choices, words)
 
 
     best_guess = min(results, key=results.get)
