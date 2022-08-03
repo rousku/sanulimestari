@@ -80,7 +80,7 @@ def match(sample, choices):
     for choice in choices:
         is_match = True
         for i in range(0, len(sample)):
-            if choice[i][0].startswith('^'):
+            if choice[i][0] == '^':
                 is_match = sample[i] not in choice[i]
             else:
                 is_match = choice[i] == sample[i]
