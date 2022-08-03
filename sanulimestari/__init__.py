@@ -98,7 +98,7 @@ def first_guess(kotus_word_list, word_length):
 
     results = {}
 
-    for guess in words:
+    for guess in words[:1]:
         for sanuli in words:
 
             choices = guess_word(guess, sanuli)
