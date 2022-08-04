@@ -31,7 +31,9 @@ def test_parse_words():
                           ('aa', 'ca', [['^a', 'a']]),
                           ('ab', 'ca', [['^ab', 'a']]),
                           ('abb', 'cad', [['^ab', 'a', '^b'],['^ab', '^b', 'a']]),
-                          ('abc', 'cad', [['c', 'a', '^bc'],['c', '^b', 'a'],['^ab', 'c', 'a']])
+                          ('abc', 'cad', [['c', 'a', '^bc'],['c', '^b', 'a'],['^ab', 'c', 'a']]),
+                          ('aabb', 'cdae', [['^ab', '^ab', 'a', '^b'], ['^ab', '^ab', '^b', 'a']]),
+                          ('abab', 'baba', [['b', 'a', 'b', 'a']])
                           ])
 def test_guess_word(guess, word, expected):
     assert expected == guess_word(guess, word)
