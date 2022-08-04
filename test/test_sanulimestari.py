@@ -1,4 +1,4 @@
-from sanulimestari import parse_words, guess_word, first_guess
+from sanulimestari import parse_words, guess_word, get_best_guess
 import pytest
 
 
@@ -46,5 +46,5 @@ def test_guess_word_lenghts_dont_match():
         guess_word('a', 'ab')
 
 
-def test_first_guess():
-    assert ('oieta', 4730143) == first_guess('.\\kotus-sanalista_v1\\kotus-sanalista_v1.xml', 5)
+def test_get_best_guess():
+    assert ('oieta', 4730143) == get_best_guess('.\\kotus-sanalista_v1\\kotus-sanalista_v1.xml', 5)

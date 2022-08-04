@@ -102,7 +102,7 @@ def get_word_count(filters, words):
 
 
 
-def first_guess(kotus_word_list, word_length):
+def get_best_guess(kotus_word_list, word_length):
     letters = set(string.ascii_lowercase)
     letters.update('ä')
     letters.update('ö')
