@@ -1,7 +1,9 @@
 import xml.etree.ElementTree as ET
 import itertools
 import string
-from functools import lru_cache
+from functools import lru_cache, partial
+from multiprocessing import Pool
+import os
 
 def parse_words(document, word_length, letters):
     words = []
@@ -100,6 +102,20 @@ def get_word_count(filters, words):
 
     return count
 
+def task(guess, words):
+  
+    matching_words = 0
+
+    for sanuli in words:
+
+        choices = guess_word(guess, sanuli)
+
+        def tuple2list(a):
+            return tuple( tuple2list(x) if isinstance(x, list) else x for x in a) 
+
+        matching_words = matching_words + get_word_count(tuple2list(choices), words)
+
+    return { guess: matching_words }
 
 
 def get_best_guess(kotus_word_list, word_length):
@@ -110,16 +126,10 @@ def get_best_guess(kotus_word_list, word_length):
 
     results = {}
 
-    for guess in words:
-        results[guess] = 0
-        for sanuli in words:
-            choices = guess_word(guess, sanuli)
-
-            def tuple2list(a):
-                return tuple( tuple2list(x) if isinstance(x, list) else x for x in a) 
-
-            results[guess] = results[guess] + get_word_count(tuple2list(choices), words)
-
+    with Pool() as pool:
+        for result in pool.map(partial(task, words=words), words):
+            results.update(result)
+    
 
     best_guess = min(results, key=results.get)
     return (best_guess, results[best_guess])
