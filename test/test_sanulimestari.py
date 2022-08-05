@@ -1,4 +1,4 @@
-from sanulimestari import parse_words, guess_word, get_best_guess
+from sanulimestari import parse_words, guess_word, get_best_guess, match
 import pytest
 
 
@@ -48,3 +48,27 @@ def test_guess_word_lenghts_dont_match():
 
 def test_get_best_guess():
     assert ('oieta', 4730143) == get_best_guess('.\\kotus-sanalista_v1\\kotus-sanalista_v1.xml', 5)
+
+@pytest.mark.parametrize('word,filters,expected', [('a', [], False),
+                                                    ('a', [['a']], True), 
+                                                    ('b', [['a']], False),
+                                                    ('ab', [['b', 'b']], False),
+                                                    ('ab', [['a', 'a']], False),
+                                                    ('ab', [['a', 'b']], True),
+                                                    ('a', [['^c']], True),
+                                                    ('c', [['^c']], False),
+                                                    ('ab', [['a', '^b']], False),
+                                                    ('ab', [['a', '^c']], True),
+                                                    ('ab', [['^a', 'b']], False), 
+                                                    ('ab', [['^c', 'b']], True), 
+                                                    ('ab', [['^a', '^b']], False),
+                                                    ('ab', [['^c', '^d']], True),
+                                                    ('a', [['^bc']], True),
+                                                    ('a', [['^ca']], False), 
+                                                    ('a', [['b'], ['a']], True),
+                                                    ('a', [['a'], ['b']], True),
+                                                    ('a', [['b'], ['c']], False),
+                                                    ('a', [['a'], ['^c']], True),
+                                                    ('abc', [['a', 'e', 'c']], False)])
+def test_match(word, filters, expected):
+    assert expected == match(word, filters)
