@@ -1,5 +1,6 @@
 from sanulimestari import parse_words, guess_word, get_best_guess, match
 import pytest
+import string
 
 
 def test_parse_words():
@@ -47,7 +48,7 @@ def test_guess_word_lenghts_dont_match():
 
 
 def test_get_best_guess():
-    assert ('oieta', 4730143) == get_best_guess('.\\kotus-sanalista_v1\\kotus-sanalista_v1.xml', 5)
+    assert ('kasti', 286123) == get_best_guess('.\\kotus-sanalista_v1\\kotus-sanalista_v1.xml', 5)
 
 @pytest.mark.parametrize('word,filters,expected', [('a', [], False),
                                                     ('a', [['a']], True), 
@@ -72,3 +73,9 @@ def test_get_best_guess():
                                                     ('abc', [['a', 'e', 'c']], False)])
 def test_match(word, filters, expected):
     assert expected == match(word, filters)
+
+def test_parse_kotus_words():
+    letters = set(string.ascii_lowercase)
+    letters.add('ä')
+    letters.add('ö')
+    assert 3271 == len(parse_words(open('.\\kotus-sanalista_v1\\kotus-sanalista_v1.xml', encoding='utf-8').read(), 5, letters))
