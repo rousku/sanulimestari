@@ -78,4 +78,7 @@ def test_parse_kotus_words():
     letters = set(string.ascii_lowercase)
     letters.add('ä')
     letters.add('ö')
-    assert 3271 == len(parse_words(open('.\\kotus-sanalista_v1\\kotus-sanalista_v1.xml', encoding='utf-8').read(), 5, letters))
+    
+    words = parse_words(open('.\\kotus-sanalista_v1\\kotus-sanalista_v1.xml', encoding='utf-8').read(), 5, letters)
+    assert 3271 == len(words)
+    assert 'pöytä' in words
