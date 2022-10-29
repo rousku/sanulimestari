@@ -99,28 +99,39 @@ def match(sample, choices):
 def get_word_count(filters, words):
     count = 0
     for word in words:
-        if match(word, filters):
+
+        filters_match = True
+
+        for f in filters:
+            if not match(word, f):
+                filters_match = False
+
+        if filters_match:
             count = count + 1
 
     return count
 
-def task(guess, words):
+def task(guess, words, previous_guesses):
   
     matching_words = 0
-
+    print(f"start {guess}")
     for sanuli in words:
 
-        choices = guess_word(guess, sanuli)
+        filters = [guess_word(guess, sanuli)]
+        for previous_guess in previous_guesses:
+            filters.append(guess_word(previous_guess, sanuli))
 
         def tuple2list(a):
             return tuple( tuple2list(x) if isinstance(x, list) else x for x in a) 
 
-        matching_words = matching_words + get_word_count(tuple2list(choices), words)
+        matching_words = matching_words + get_word_count(tuple2list(filters), words)
 
+
+    print(f"end {guess}")
     return { guess: matching_words }
 
 
-def get_best_guess(kotus_word_list, word_length):
+def get_best_guess(kotus_word_list, word_length, previous_guesses=[]):
     letters = set(string.ascii_lowercase)
     letters.update('ä')
     letters.update('ö')
@@ -129,7 +140,7 @@ def get_best_guess(kotus_word_list, word_length):
     results = {}
 
     with Pool() as pool:
-        for result in pool.map(partial(task, words=words), words):
+        for result in pool.map(partial(task, words=words, previous_guesses=previous_guesses), words):
             results.update(result)
     
 

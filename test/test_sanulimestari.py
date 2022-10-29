@@ -47,9 +47,6 @@ def test_guess_word_lenghts_dont_match():
         guess_word('a', 'ab')
 
 
-def test_get_best_guess():
-    assert ('kasti', 286123) == get_best_guess('.\\kotus-sanalista_v1\\kotus-sanalista_v1.xml', 5)
-
 @pytest.mark.parametrize('word,filters,expected', [('a', [], False),
                                                     ('a', [['a']], True), 
                                                     ('b', [['a']], False),
@@ -82,3 +79,9 @@ def test_parse_kotus_words():
     words = parse_words(open('.\\kotus-sanalista_v1\\kotus-sanalista_v1.xml', encoding='utf-8').read(), 5, letters)
     assert 3271 == len(words)
     assert 'pöytä' in words
+
+def test_get_best_guess():
+    assert ('kasti', 286123) == get_best_guess('.\\kotus-sanalista_v1\\kotus-sanalista_v1.xml', 5)
+
+def test_get_second_best_guess():
+    assert ('lopen', 23822) == get_best_guess('.\\kotus-sanalista_v1\\kotus-sanalista_v1.xml', 5, ['kasti'])
