@@ -1,0 +1,21 @@
+{
+    "manifest_version": 2,
+    "name": "Sanulimestari",
+    "description": "Sanulimestari muistaa vanhat päivän sanulit.",
+    "version": "0.1",
+    "browser_action": {
+      "default_popup": "sanulimestari.html",
+      "default_icon": {
+        "16": "icon.png"
+      }
+    },
+    "content_scripts": [
+      {
+        "matches": ["https://sanuli.fi/"],
+        "js": ["content-script.js"]
+      }
+    ],
+    "permissions": [
+      "storage"
+    ]
+  }
