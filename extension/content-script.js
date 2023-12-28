@@ -1,6 +1,3 @@
-
-var origTileBackgroundColor = undefined;
-
 const observer = new MutationObserver(mutations => {
 
     document.querySelectorAll('.tile:not(.current)').forEach(elem => {
@@ -24,7 +21,8 @@ const observer = new MutationObserver(mutations => {
             
         })
 
-        const solvedSanuliOfTheDay = Array.from(document.querySelectorAll('.row-5:not(:has(.present)):not(:has(.absent)):not(:has(.current)):has(.correct) > .tile')).map(tile => tile.innerText).join('')
+        const solvedSanuliTiles = document.querySelectorAll('.row-5:not(:has(.present)):not(:has(.absent)):not(:has(.current)):has(.correct) > .tile')
+        const solvedSanuliOfTheDay = Array.from(solvedSanuliTiles).map(tile => tile.innerText).join('')
         const unSolvedSanuliOfheDay = document.querySelector('.message')?.textContent?.match(/Sana oli "([\wÖÄ]+)"/)?.[1]
 
         const sanuliOfTheDay = solvedSanuliOfTheDay ? solvedSanuliOfTheDay : unSolvedSanuliOfheDay
@@ -32,6 +30,10 @@ const observer = new MutationObserver(mutations => {
             var obj = {}
             obj[sanuliOfTheDay] = true
             chrome.storage.local.set(obj)
+
+            solvedSanuliTiles.forEach(elem => {
+                elem.style.setProperty('border', '5px darkgreen solid')
+            })
         }
         
     }
